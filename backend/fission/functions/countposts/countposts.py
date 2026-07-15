@@ -10,10 +10,18 @@
 
 import logging
 import json
+import os
 from typing import Optional, Dict, Any
 from flask import current_app, request
 from elasticsearch8 import Elasticsearch
 from string import Template
+
+def secret(k: str) -> str:
+    value = os.getenv(k)
+    if value:
+        return value
+    with open(f'/secrets/default/es-credentials/{k}', 'r') as f:
+        return f.read().strip()
 
 # Query templates
 date_query = Template('''{
@@ -53,7 +61,7 @@ def main() -> Dict[str, Any]:
         'https://elasticsearch-master.elastic.svc.cluster.local:9200',
         verify_certs=False,
         ssl_show_warn=False,
-        basic_auth=('elastic', 'Mha6ElTaqEWS2mkX')
+        basic_auth=(secret('ES_USERNAME'), secret('ES_PASSWORD'))
     )
 
     try:

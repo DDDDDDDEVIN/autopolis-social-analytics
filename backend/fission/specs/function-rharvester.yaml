@@ -16,6 +16,9 @@ spec:
   configmaps:
   - name: reddit-config
     namespace: ""
+  secrets:
+  - name: reddit-credentials
+    namespace: ""
   environment:
     name: python39x
     namespace: ""

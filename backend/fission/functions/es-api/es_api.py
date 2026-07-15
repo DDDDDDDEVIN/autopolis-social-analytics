@@ -12,7 +12,7 @@ app = Flask(__name__)
 # Get Elasticsearch configuration from environment variables or use defaults
 ES_URL = os.getenv('ES_URL', 'https://localhost:9200')
 ES_USER = os.getenv('ES_USER', 'elastic')
-ES_PASSWORD = os.getenv('ES_PASSWORD', 'Mha6ElTaqEWS2mkX')
+ES_PASSWORD = os.getenv('ES_PASSWORD')
 
 HEADERS = {
     "Accept": "application/vnd.elasticsearch+json; compatible-with=8",

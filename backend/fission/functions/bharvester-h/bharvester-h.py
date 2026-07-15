@@ -36,6 +36,10 @@ def save_cursor(query: str, cursor: str):
     current_app.logger.info(f"Saved cursor: {cursor}")
 
 def config(k: str) -> str:
+    secret_path = f'/secrets/default/bluesky-credentials/{k}'
+    if os.path.exists(secret_path):
+        with open(secret_path, 'r') as f:
+            return f.read().strip()
     with open(f'/configs/default/bluesky-config/{k}', 'r') as f:
         return f.read().strip()
 

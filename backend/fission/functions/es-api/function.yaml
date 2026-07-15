@@ -33,4 +33,4 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: es-credentials
-                key: password 
+                key: ES_PASSWORD

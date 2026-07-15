@@ -9,12 +9,17 @@
 '''
 import logging
 import json
+import os
 from typing import Dict, List, Any
 from flask import current_app, request
 from elasticsearch8 import Elasticsearch
 
 
 def config(k: str) -> str:
+    secret_path = f'/secrets/default/es-credentials/{k}'
+    if os.path.exists(secret_path):
+        with open(secret_path, 'r') as f:
+            return f.read().strip()
     with open(f'/configs/default/addobservations-config/{k}', 'r') as f:
         return f.read().strip()
 

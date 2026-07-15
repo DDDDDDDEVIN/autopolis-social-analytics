@@ -22,6 +22,10 @@ def get_redis_connection():
     )
 
 def config(k: str) -> str:
+    secret_path = f'/secrets/default/mastodon-credentials/{k}'
+    if os.path.exists(secret_path):
+        with open(secret_path, 'r') as f:
+            return f.read().strip()
     with open(f'/configs/default/mastodon-config/{k}', 'r') as f:
         return f.read().strip()
 

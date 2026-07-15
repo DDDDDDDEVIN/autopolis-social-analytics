@@ -36,23 +36,39 @@ Timer Trigger (Harvester) ──▶ HTTP Trigger (Enqueue) ──▶ MQ Trigger 
 
 ### Deployment Steps
 ```bash
-# 1. Apply Fission specs
+# 1. Create runtime secrets (replace the placeholder values)
+kubectl create secret generic reddit-credentials \
+  --from-literal=REDDIT_CLIENT_ID='<reddit-client-id>' \
+  --from-literal=REDDIT_CLIENT_SECRET='<reddit-client-secret>'
+
+kubectl create secret generic bluesky-credentials \
+  --from-literal=BSKY_USERNAME='<bluesky-username>' \
+  --from-literal=BSKY_PASSWORD='<bluesky-app-password>'
+
+kubectl create secret generic mastodon-credentials \
+  --from-literal=MASTODON_TOKEN='<mastodon-access-token>'
+
+kubectl create secret generic es-credentials \
+  --from-literal=ES_USERNAME='<elasticsearch-username>' \
+  --from-literal=ES_PASSWORD='<elasticsearch-password>'
+
+# 2. Apply Fission specs
 
 (cd backend
 cd functions
 fission spec apply --specdir fission/specs --wait .)
 
 
-# 2. Monitor function logs
+# 3. Monitor function logs
 fission fn logs -f --name {function-name}
 
-# 3. Monitor pods activities
+# 4. Monitor pods activities
 kubectl get pods -n fission
 
-# 4. Monitor nodes usage
+# 5. Monitor nodes usage
 kubectl top nodes
 
-# 5. Restful API usage
+# 6. Restful API usage
 kubectl port-forward service/router -n fission 9090:80
 curl http://localhost:9090/posts/days/2025-05-10 | jq '.'
 curl http://localhost:9090/posts/days/2025-05-10/topics/greens | jq '.'

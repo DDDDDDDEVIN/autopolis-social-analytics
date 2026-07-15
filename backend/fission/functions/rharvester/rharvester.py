@@ -12,7 +12,15 @@ from datetime import datetime
 from flask import current_app
 
 def config(k: str) -> str:
-    return os.getenv(k) or open(f"/configs/default/reddit-config/{k}").read().strip()
+    value = os.getenv(k)
+    if value:
+        return value
+
+    secret_path = f"/secrets/default/reddit-credentials/{k}"
+    if os.path.exists(secret_path):
+        return open(secret_path).read().strip()
+
+    return open(f"/configs/default/reddit-config/{k}").read().strip()
 
 def reddit_client():
     return praw.Reddit(

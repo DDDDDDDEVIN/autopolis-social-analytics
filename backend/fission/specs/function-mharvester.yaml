@@ -16,6 +16,9 @@ spec:
   configmaps:
   - name: mastodon-config
     namespace: ""
+  secrets:
+  - name: mastodon-credentials
+    namespace: ""
   environment:
     name: python39x
     namespace: ""

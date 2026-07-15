@@ -1,0 +1,69 @@
+# macOS
+.DS_Store
+._*
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Python environments
+.venv/
+venv/
+env/
+ENV/
+.conda/
+*.egg-info/
+
+# Build and packaging output
+build/
+dist/
+*.egg
+*.whl
+*.tar.gz
+*.tgz
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs and runtime files
+*.log
+*.pid
+*.tmp
+.cache/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+kubeconfig
+kubeconfig.*
+
+# Local data exports and Elasticsearch artifacts
+*.csv
+*.parquet
+*.sqlite
+*.sqlite3
+*.ndjson.tmp
+
+# Locally downloaded/generated Fission artifacts
+backend/fission/functions/es-api/fission
+backend/fission/functions/es-api/fission-all-*.tgz

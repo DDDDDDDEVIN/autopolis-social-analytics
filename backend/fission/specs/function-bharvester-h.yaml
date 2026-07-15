@@ -16,6 +16,9 @@ spec:
   configmaps:
   - name: bluesky-config
     namespace: ""
+  secrets:
+  - name: bluesky-credentials
+    namespace: ""
   environment:
     name: python39x
     namespace: ""
