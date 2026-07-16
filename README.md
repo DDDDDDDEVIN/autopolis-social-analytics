@@ -148,14 +148,6 @@ jupyter notebook frontend/frontend.ipynb
 Alternatively, replace the API-loading cell with
 `data/sample_social_posts_500.json`.
 
-### Optional Elasticsearch query API
-
-`backend/fission/functions/es-api` is a standalone optional service providing
-health, index-listing, and scroll-search endpoints. Its `function.yaml` and
-`trigger.yaml` are reference manifests and are not applied by the primary
-`backend/fission/specs` application. The ingestion pipeline and date/topic
-count routes do not depend on this service.
-
 ## Methods
 
 - **Data collection:** platform-specific harvesters query Reddit, Mastodon, and
