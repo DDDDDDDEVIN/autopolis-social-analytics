@@ -1,6 +1,6 @@
 # AutoPolis
 
-[![Tests](https://github.com/DDDDDDDEVIN/ccc/actions/workflows/tests.yml/badge.svg)](https://github.com/DDDDDDDEVIN/ccc/actions/workflows/tests.yml)
+[![Tests](https://github.com/DDDDDDDEVIN/autopolis-social-analytics/actions/workflows/tests.yml/badge.svg)](https://github.com/DDDDDDDEVIN/autopolis-social-analytics/actions/workflows/tests.yml)
 
 An event-driven cloud pipeline for analysing Australian federal election discourse across Reddit, Mastodon, and Bluesky.
 
