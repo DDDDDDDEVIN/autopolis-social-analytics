@@ -12,11 +12,13 @@ import json
 import logging
 import re
 import html
+import os
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from flask import current_app, request
 
-CONFIG_BASE = Path("/configs/default/bprocessor-config")
+DEFAULT_CONFIG_BASE = Path("/configs/default/processor-config")
+CONFIG_BASE = Path(os.environ.get("CONFIG_BASE", DEFAULT_CONFIG_BASE))
 
 
 def config(key: str) -> str:

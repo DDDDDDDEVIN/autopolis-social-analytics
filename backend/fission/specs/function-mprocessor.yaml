@@ -14,7 +14,7 @@ spec:
     StrategyType: execution
   concurrency: 500
   configmaps:
-  - name: bprocessor-config
+  - name: processor-config
     namespace: ""
   environment:
     name: python39x

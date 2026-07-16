@@ -23,8 +23,8 @@ def config(k: str) -> str:
     with open(f'/configs/default/addobservations-config/{k}', 'r') as f:
         return f.read().strip()
 
-def main() -> str:
-    """Process and index weather observation data into Elasticsearch.
+def main():
+    """Process and index social-media observations into Elasticsearch.
 
     Handles:
     - Elasticsearch client initialization with security credentials
@@ -36,9 +36,8 @@ def main() -> str:
     Returns:
         'ok' on successful processing of all observations
 
-    Raises:
-        JSONDecodeError: If invalid JSON payload received
-        ElasticsearchException: For indexing failures
+    Connection and indexing failures are returned to the message-queue caller
+    as explicit error responses so Fission can retry the message.
     """
     # Initialize Elasticsearch client
     try:
@@ -48,9 +47,10 @@ def main() -> str:
             ssl_show_warn=False,
             basic_auth=(config("ES_USERNAME"), config("ES_PASSWORD"))
         )
-        current_app.logger.info(f"Elastic Search connection established")
-    except Exception as e:
-        current_app.logger.error(f"Elastic Search connection failed")
+        current_app.logger.info("Elasticsearch client initialised")
+    except Exception:
+        current_app.logger.exception("Elasticsearch client initialisation failed")
+        return "ERROR", 503
 
     # Validate and parse request payload
     request_data: List[Dict[str, Any]] = request.get_json(force=True)
@@ -69,8 +69,10 @@ def main() -> str:
                 f'Indexed observation {doc_id} - '
                 f'Version: {index_response["_version"]}'
             )
-        except Exception as e:
-            current_app.logger.error(f"store observations failed")
+        except Exception:
+            current_app.logger.exception(
+                "Failed to index observation %s", doc_id
+            )
             return "ERROR"
 
     return 'OK'

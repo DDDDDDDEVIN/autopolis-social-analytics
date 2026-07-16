@@ -13,7 +13,7 @@ from typing import Dict, List, Any, Optional
 from flask import current_app, request
 
 # Default config path
-DEFAULT_CONFIG_BASE = Path("/configs/default/bprocessor-config")
+DEFAULT_CONFIG_BASE = Path("/configs/default/processor-config")
 
 # Allow override via environment variable
 CONFIG_BASE = Path(os.environ.get("CONFIG_BASE", DEFAULT_CONFIG_BASE))
@@ -127,4 +127,3 @@ def main():
     except TypeError as e:
         current_app.logger.error(f"JSON serialisation failed: {e}")
         return "ERROR"
-

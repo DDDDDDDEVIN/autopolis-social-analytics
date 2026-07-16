@@ -12,11 +12,13 @@ import json
 import logging
 import re
 import html
+import os
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from flask import current_app, request
 
-CONFIG_BASE = Path("/configs/default/bprocessor-config")
+DEFAULT_CONFIG_BASE = Path("/configs/default/processor-config")
+CONFIG_BASE = Path(os.environ.get("CONFIG_BASE", DEFAULT_CONFIG_BASE))
 
 
 def config(key: str) -> str:
@@ -65,7 +67,9 @@ def get_topic_mapping():
 _TAG_RE = re.compile(r"<[^>]+>")
 
 def clean_content(post: Dict[str, Any]) -> str:
-    raw = post.get("content")
+    raw = post.get("content") or ""
+    if not isinstance(raw, str):
+        raw = str(raw)
     text = html.unescape(raw)
     text = _TAG_RE.sub(" ", text)
     text = " ".join(text.split())
@@ -127,7 +131,7 @@ def process_post(post: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
 
 def main():
-    current_app.logger.info("bprocessor started")
+    current_app.logger.info("mprocessor started")
 
     try:
         request_data: List[Dict[str, Any]] = request.get_json(force=True, silent=False)

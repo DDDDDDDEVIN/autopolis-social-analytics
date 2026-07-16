@@ -90,15 +90,23 @@ class TestEnqueue(unittest.TestCase):
         with self.app.test_request_context(
             json=test_data
         ):
-            # Call the function
-            result = enqueue()
-            
-            # Verify Redis was called with None topic
-            self.mock_redis_instance.lpush.assert_called_once_with(
-                None,
-                json.dumps(test_data).encode('utf-8')
-            )
-            self.assertEqual(result, 'OK')
+            result, status_code = enqueue()
+
+            self.assertEqual(status_code, 400)
+            self.assertEqual(result, {"error": "Missing queue topic"})
+            self.mock_redis.assert_not_called()
+
+    def test_empty_topic(self):
+        """Whitespace-only topic headers are rejected."""
+        with self.app.test_request_context(
+            json=[{"id": 1}],
+            headers={'X-Fission-Params-Topic': '   '}
+        ):
+            result, status_code = enqueue()
+
+            self.assertEqual(status_code, 400)
+            self.assertEqual(result, {"error": "Missing queue topic"})
+            self.mock_redis.assert_not_called()
 
 if __name__ == '__main__':
-    unittest.main() 
+    unittest.main()

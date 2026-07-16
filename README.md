@@ -17,6 +17,22 @@ The project was designed around two questions:
 
 The analysis notebook includes post-volume trends, sentiment distributions, party and platform comparisons, word clouds, user-activity analysis, and state-level geographic visualisations.
 
+## Results
+
+The collected dataset contained 22,181 Coalition-related posts, 21,132 Labor-related posts, and 10,663 Greens-related posts. Activity increased sharply around the May 2025 federal election period, with distinct peaks for each political topic.
+
+| Post volume by political topic | Daily posting activity |
+| --- | --- |
+| ![Horizontal bar chart showing the number of Coalition, Labor, and Greens posts](plots/post-volume-by-party.png) | ![Daily posting trends for Coalition, Labor, and Greens topics during April and May 2025](plots/daily-posting-trends.png) |
+
+Cross-platform analysis showed that sentiment distributions were not uniform. In this dataset, Reddit posts about Labor and the Coalition had higher median sentiment than the corresponding Bluesky and Mastodon posts, while Reddit posts about the Greens were more negative. The heatmap summarises the mean score for every party-platform combination.
+
+| Sentiment distributions across platforms | Mean sentiment by topic and source |
+| --- | --- |
+| ![Box plots comparing party sentiment across Bluesky, Mastodon, and Reddit](plots/sentiment-by-party-platform.png) | ![Heatmap of mean sentiment by political topic and social platform](plots/sentiment-heatmap.png) |
+
+These are descriptive results from the posts collected by the project's queries and platform APIs. They should not be interpreted as representative estimates of Australian public opinion. Sentiment scores were produced in the analysis notebook rather than by the real-time ingestion functions.
+
 ## Architecture
 
 ```text
@@ -97,6 +113,7 @@ backend/fission/specs/       Kubernetes/Fission functions, packages and trigger 
 database/                    Elasticsearch mapping and query examples
 data/                        500-record anonymised sample and bulk-import files
 frontend/frontend.ipynb      Sentiment analysis and interactive visualisations
+plots/                       Static plot outputs exported from the notebook
 test/                        Unit and mocked end-to-end tests
 docs/                        Original project report
 ```

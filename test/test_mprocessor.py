@@ -117,6 +117,27 @@ class TestMProcessor(unittest.TestCase):
         cleaned = clean_content({"content": test_content})
         self.assertEqual(cleaned, "Hello from Melbourne!")
 
+    def test_clean_content_handles_none(self):
+        """Missing Mastodon content is normalised to an empty string."""
+        self.assertEqual(clean_content({"content": None}), "")
+        self.assertEqual(clean_content({}), "")
+
+    def test_process_post_handles_none_content(self):
+        """A post with null content is retained without crashing."""
+        post = {
+            "content": None,
+            "created_at": "2024-01-01T00:00:00Z",
+            "id": "123",
+            "account": {"acct": "testuser"},
+            "matched_query": "election",
+            "tags": []
+        }
+
+        result = process_post(post)
+
+        self.assertIsNotNone(result)
+        self.assertEqual(result["text"], "")
+
     def test_process_post_with_location(self):
         """Test process_post function with location extraction."""
         post = {
@@ -163,4 +184,4 @@ class TestMProcessor(unittest.TestCase):
         self.assertEqual(result["topic"], "climate")
 
 if __name__ == '__main__':
-    unittest.main() 
+    unittest.main()

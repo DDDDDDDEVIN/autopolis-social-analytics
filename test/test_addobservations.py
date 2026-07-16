@@ -88,10 +88,11 @@ class TestAddObservations(unittest.TestCase):
         
         with self.app.test_request_context(json=test_data):
             # Call the function
-            result = addobservations()
+            result, status_code = addobservations()
             
             # Verify error response
             self.assertEqual(result, 'ERROR')
+            self.assertEqual(status_code, 503)
             self.mock_es_instance.index.assert_not_called()
 
     def test_indexing_failure(self):    
@@ -137,4 +138,4 @@ class TestAddObservations(unittest.TestCase):
             self.assertEqual(result, 'OK')
 
 if __name__ == '__main__':
-    unittest.main() 
+    unittest.main()

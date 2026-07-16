@@ -9,15 +9,15 @@
 '''
 import logging
 import json
-from typing import Dict, Any, Optional
-from flask import current_app, request
+from typing import Any, List, Optional
+from flask import request
 import redis
 
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-def main() -> str:
+def main():
     """Message queue producer for Redis streaming.
 
     Handles:
@@ -37,9 +37,15 @@ def main() -> str:
     
     # Extract routing parameters
     topic: Optional[str] = request.headers.get('X-Fission-Params-Topic')
+
+    if not topic or not topic.strip():
+        logger.error("Missing queue topic")
+        return {"error": "Missing queue topic"}, 400
+
+    topic = topic.strip()
     
     try:
-        json_data: Dict[str, Any] = request.get_json()
+        json_data: List[Any] = request.get_json()
         logger.info("Successfully get json data")
     except Exception as e:
         logger.error("Get json failure")
